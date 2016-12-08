@@ -75,5 +75,12 @@ namespace Hoornbeeck.Todo.Services {
 
             return todo;
         }
+
+        public async Task DeleteTodo(Models.Todo todo) {
+            await _todoTable.DeleteAsync(todo);
+
+            //Synchronize the todo
+            await SyncTodo();
+        }
     }
 }

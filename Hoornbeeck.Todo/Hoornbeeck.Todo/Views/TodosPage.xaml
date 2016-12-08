@@ -18,7 +18,7 @@
         Command="{Binding AddTodoCommand}"
         IsEnabled="{Binding IsNotBusy}"
         VerticalOptions="Center"
-        HorizontalOptions="End"       
+        HorizontalOptions="End"
         TextColor="#07505d"/>
       </StackLayout>
       <ListView
@@ -28,7 +28,7 @@
           HasUnevenRows ="true"
           ItemsSource="{Binding TodosGrouped}"
           IsPullToRefreshEnabled="true"
-          IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+          IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
           RefreshCommand="{Binding LoadTodosCommand}"
           SelectedItem="{Binding SelectedTodo}"
           x:Name="ListViewTodos">
@@ -61,18 +61,13 @@
         <Label TextColor="White" Text="No Connection - Offline Mode" HorizontalOptions="Center" VerticalOptions="Center"/>
       </StackLayout>
     </Grid>
-    <ContentView
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1">
-      <ContentView.IsVisible>
-        <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="False" WinPhone="True" />
-      </ContentView.IsVisible>
-      <StackLayout IsVisible="{Binding IsBusy}"
-                   Padding="32"
-                   BackgroundColor="#1c9d9f">
-        <ActivityIndicator IsRunning="{Binding IsBusy}" Color="White"/>
-        <Label Text="{Binding LoadingMessage}" HorizontalOptions="Center" TextColor="White" Style="{DynamicResource ListItemTextStyle}"/>
-      </StackLayout>
-    </ContentView>
+    <StackLayout IsVisible="{Binding IsBusy}"
+                 Padding="32"
+                 BackgroundColor="#1c9d9f"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1">
+      <ActivityIndicator IsRunning="{Binding IsBusy}" Color="White"/>
+      <Label Text="{Binding LoadingMessage}" HorizontalOptions="Center" TextColor="White" Style="{DynamicResource ListItemTextStyle}"/>
+    </StackLayout>
   </AbsoluteLayout>
 </ContentPage>

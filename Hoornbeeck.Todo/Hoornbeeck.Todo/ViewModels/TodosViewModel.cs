@@ -122,5 +122,31 @@ namespace Hoornbeeck.Todo.ViewModels {
         async Task ExecuteNewTodoCommandAsync() {
             await Navigation.PushAsync(TodoPage);
         }
+
+        ICommand _deleteTodoCommand;
+        public ICommand DeleteTodoCommand =>
+            _deleteTodoCommand ?? (_deleteTodoCommand = new Command(async () => await ExecuteDeleteTodoCommandAsync()));
+
+        async Task ExecuteDeleteTodoCommandAsync() {
+            if (IsBusy || SelectedTodo == null) return;
+
+            try {
+                LoadingMessage = "Deleting Todo...";
+                IsBusy = true;
+
+                await _azureService.DeleteTodo(SelectedTodo);
+                Todos.Remove(SelectedTodo);
+                SortTodos();
+
+                await Navigation.PopAsync();
+            }
+            catch (Exception ex) {
+                Debug.WriteLine("OH NO!" + ex);
+            }
+            finally {
+                LoadingMessage = string.Empty;
+                IsBusy = false;
+            }
+        }
     }
 }
