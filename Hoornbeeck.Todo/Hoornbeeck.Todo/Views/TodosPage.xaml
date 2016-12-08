@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Hoornbeeck.Todo.Views.TodosPage"
+             Title="Todo's">
+  <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <Grid AbsoluteLayout.LayoutFlags="All"
+          AbsoluteLayout.LayoutBounds="0,0,1,1"
+          RowSpacing="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <StackLayout Grid.Row="0" Orientation="Horizontal" Padding="16, 0, 16, 16" BackgroundColor="#1c9d9f">
+        <Entry Placeholder="Notitie" TextColor="#07505d" Text="{Binding NewNote}" HorizontalOptions="FillAndExpand" />
+        <Button Text="Toevoegen"
+        Command="{Binding AddTodoCommand}"
+        IsEnabled="{Binding IsNotBusy}"
+        VerticalOptions="Center"
+        HorizontalOptions="End"       
+        TextColor="#07505d"/>
+      </StackLayout>
+      <ListView
+          Grid.Row="1"
+          GroupDisplayBinding="{Binding Key}"
+          IsGroupingEnabled="true"
+          HasUnevenRows ="true"
+          ItemsSource="{Binding TodosGrouped}"
+          IsPullToRefreshEnabled="true"
+          IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+          RefreshCommand="{Binding LoadTodosCommand}"
+          SelectedItem="{Binding SelectedTodo}"
+          x:Name="ListViewTodos">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <Grid Padding="16,12">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Text="{Binding Note}"
+                       FontSize="16"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       VerticalTextAlignment="Center"
+                       LineBreakMode="TailTruncation"/>
+                <Label Grid.Column="1"
+                       HorizontalOptions="End"
+                       FontSize="16"
+                       Text="{Binding TimeDisplay}"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       TextColor="#979797"
+                       VerticalTextAlignment="Center"/>
+              </Grid>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      <StackLayout Grid.Row="2" x:Name="OfflineStack" Padding="8" IsVisible="false" BackgroundColor="#1c9d9f">
+        <Label TextColor="White" Text="No Connection - Offline Mode" HorizontalOptions="Center" VerticalOptions="Center"/>
+      </StackLayout>
+    </Grid>
+    <ContentView
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1">
+      <ContentView.IsVisible>
+        <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="False" WinPhone="True" />
+      </ContentView.IsVisible>
+      <StackLayout IsVisible="{Binding IsBusy}"
+                   Padding="32"
+                   BackgroundColor="#1c9d9f">
+        <ActivityIndicator IsRunning="{Binding IsBusy}" Color="White"/>
+        <Label Text="{Binding LoadingMessage}" HorizontalOptions="Center" TextColor="White" Style="{DynamicResource ListItemTextStyle}"/>
+      </StackLayout>
+    </ContentView>
+  </AbsoluteLayout>
+</ContentPage>

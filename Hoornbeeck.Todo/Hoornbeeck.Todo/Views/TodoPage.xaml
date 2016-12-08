@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Hoornbeeck.Todo.Views.TodoPage"
+             Title="Todo item">
+  <StackLayout Orientation="Vertical" Padding="16" Spacing="16">
+    <Label Text="Notitie" FontAttributes="Bold" TextColor="#1c9d9f" />
+    <Label Text="{Binding SelectedTodo.Note}" />
+    
+    <Label Text="Via" FontAttributes="Bold" TextColor="#1c9d9f" />
+    <Label Text="{Binding SelectedTodo.OS}" />
+
+    <Label Text="Datum" FontAttributes="Bold" TextColor="#1c9d9f" />
+    <Label Text="{Binding SelectedTodo.DateDisplay}" />
+
+    <Label Text="Tijdstip" FontAttributes="Bold" TextColor="#1c9d9f" />
+    <Label Text="{Binding SelectedTodo.TimeDisplay}" />
+  </StackLayout>
+</ContentPage>
